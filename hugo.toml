@@ -1,0 +1,50 @@
+baseURL = 'https://evoleinik.com/'
+languageCode = 'en-us'
+title = 'Eugene Oleinik'
+theme = 'PaperMod'
+
+[params]
+author = 'Eugene Oleinik'
+description = 'Building things that work.'
+showReadingTime = true
+showShareButtons = false
+showPostNavLinks = true
+showBreadCrumbs = false
+showCodeCopyButtons = true
+defaultTheme = 'auto'
+
+  [params.homeInfoParams]
+  Title = 'Eugene Oleinik'
+  Content = 'Building things that work.'
+
+  [[params.socialIcons]]
+  name = 'github'
+  url = 'https://github.com/evoleinik'
+
+  [[params.socialIcons]]
+  name = 'linkedin'
+  url = 'https://linkedin.com/in/evoleinik'
+
+  [[params.socialIcons]]
+  name = 'email'
+  url = 'mailto:evoleinik@gmail.com'
+
+[menu]
+  [[menu.main]]
+  identifier = 'posts'
+  name = 'Posts'
+  url = '/posts/'
+  weight = 10
+
+  [[menu.main]]
+  identifier = 'about'
+  name = 'About'
+  url = '/about/'
+  weight = 20
+
+[outputs]
+home = ['HTML', 'RSS']
+
+[markup]
+  [markup.highlight]
+  style = 'monokai'
