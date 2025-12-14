@@ -27,7 +27,7 @@ defaultTheme = 'auto'
 
   [[params.socialIcons]]
   name = 'email'
-  url = 'mailto:evoleinik@gmail.com'
+  url = 'mailto:ev@evoleinik.com'
 
 [menu]
   [[menu.main]]
