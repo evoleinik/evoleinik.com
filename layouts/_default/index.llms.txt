@@ -1,0 +1,14 @@
+# {{ .Site.Title }}
+
+> {{ .Site.Params.description }}
+
+## Posts
+{{ range (where .Site.RegularPages "Section" "posts") }}
+- [{{ .Title }}]({{ .Permalink }}){{ with .Params.summary }}: {{ . }}{{ end }}
+{{ end }}
+## About
+
+- [About]({{ "about/" | absURL }})
+- [GitHub](https://github.com/evoleinik)
+- [LinkedIn](https://linkedin.com/in/evoleinik)
+- [Email](mailto:ev@evoleinik.com)

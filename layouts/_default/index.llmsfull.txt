@@ -1,0 +1,21 @@
+# {{ .Site.Title }} - Full Content
+
+> {{ .Site.Params.description }}
+
+Generated: {{ now.Format "2006-01-02" }}
+
+---
+{{ range (where .Site.RegularPages "Section" "posts") }}
+## {{ .Title }}
+
+URL: {{ .Permalink }}
+Date: {{ .Date.Format "2006-01-02" }}
+{{ with .Params.tags }}Tags: {{ delimit . ", " }}{{ end }}
+
+{{ .RawContent }}
+
+---
+{{ end }}
+## About
+
+{{ with .Site.GetPage "/about" }}{{ .RawContent }}{{ end }}
