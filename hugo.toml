@@ -17,7 +17,9 @@ defaultTheme = 'auto'
   Title = 'Eugene Oleinik'
   Content = '''Founder in Residence at Antler. Former CTO of 12Go, APAC's leading ground transportation OTA, where I spent 10 years scaling the platform to 30,000 bookings daily with a remote team of 50 engineers.
 
-Based in Singapore. Building what's next.'''
+Based in Singapore. Building what's next.
+
+**Projects:** [fnkey](https://github.com/evoleinik/fnkey) · [feeder](https://github.com/evoleinik/feeder) · [ai-9p](https://github.com/evoleinik/ai-9p)'''
 
   [[params.socialIcons]]
   name = 'github'
@@ -30,19 +32,6 @@ Based in Singapore. Building what's next.'''
   [[params.socialIcons]]
   name = 'email'
   url = 'mailto:ev@evoleinik.com'
-
-[menu]
-  [[menu.main]]
-  identifier = 'posts'
-  name = 'Posts'
-  url = '/posts/'
-  weight = 10
-
-  [[menu.main]]
-  identifier = 'about'
-  name = 'About'
-  url = '/about/'
-  weight = 20
 
 [outputs]
 home = ['HTML', 'RSS', 'LLMS', 'LLMSFULL']
