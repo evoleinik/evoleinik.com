@@ -51,4 +51,4 @@ home = ['HTML', 'RSS', 'LLMS', 'LLMSFULL']
 
 [markup]
   [markup.highlight]
-  style = 'monokai'
+  noClasses = false
