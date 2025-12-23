@@ -33,6 +33,18 @@ Based in Singapore. Building what's next.
   name = 'email'
   url = 'mailto:ev@evoleinik.com'
 
+  [[params.socialIcons]]
+  name = 'x'
+  url = 'https://x.com/EugeneOleinik'
+
+  [[params.socialIcons]]
+  name = 'dev'
+  url = 'https://dev.to/evoleinik'
+
+  [[params.socialIcons]]
+  name = 'telegram'
+  url = 'https://t.me/eo_builds'
+
 [outputs]
 home = ['HTML', 'RSS', 'LLMS', 'LLMSFULL']
 
