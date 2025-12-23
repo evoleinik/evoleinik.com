@@ -135,3 +135,7 @@ For the Whisper benchmarks: local inference was 10-20x slower than cloud APIs (G
 - **The fix isn't always hardware** - disabling Turbo is a valid workaround when PSU upgrade isn't immediate
 
 Next time you hit a weird hardware issue, try describing it to Claude Code. The systematic approach might save you hours of forum diving.
+
+---
+
+**Related:** [CLAUDE.md: Building Persistent Memory for AI Coding Agents](/posts/claude-md-as-agent-memory/) - Make Claude Code remember your project's quirks between sessions.

@@ -207,3 +207,7 @@ This started as a script to solve my own problem. A few observations from the ex
 - Slack uses single asterisks for bold - check your target platform's formatting
 
 The action is on [GitHub Marketplace](https://github.com/marketplace/actions/changelog-summary). MIT licensed. PRs welcome.
+
+---
+
+**Related:** [Adding LLM Polish to a Speech-to-Text App](/posts/adding-llm-polish-to-speech-to-text/) - More LLM integration patterns for user-facing tools.

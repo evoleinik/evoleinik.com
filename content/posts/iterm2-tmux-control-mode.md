@@ -144,3 +144,7 @@ That's the entire setup.
 - **Why it's underrated**: Apple's documentation for this feature is buried, and tmux's documentation focuses on the traditional text-mode experience
 
 Remote development doesn't need to be complicated. SSH and tmux have been solving this problem for decades. iTerm2 just made them work together seamlessly.
+
+---
+
+**Related:** [Preserve macOS App Permissions Across Rebuilds](/posts/macos-dev-signing-preserve-permissions/) - Keep your local dev tools working after code changes.

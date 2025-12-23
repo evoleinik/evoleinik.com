@@ -81,3 +81,7 @@ The `-legacy` flag in the p12 conversion is required because macOS Keychain uses
 - Self-signed certificates provide stable signatures across rebuilds
 - Trust must be explicitly set in Keychain Access for code signing
 - Use `-legacy` flag when creating p12 files for macOS import
+
+---
+
+**Related:** [iTerm2 + tmux -CC: The Remote Development Setup](/posts/iterm2-tmux-control-mode/) - Streamline your remote macOS development workflow.

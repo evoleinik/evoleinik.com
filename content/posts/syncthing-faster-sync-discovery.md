@@ -1,7 +1,7 @@
 ---
 title: "Speed Up Syncthing File Sync Discovery (From 11 Seconds to 2)"
 date: 2025-12-16
-tags: [syncthing, performance, devtools]
+tags: [syncthing, performance, developer-tools]
 summary: "Reduce Syncthing's file detection delay from 10+ seconds to under 3 by tuning fsWatcherDelayS on the sending machine."
 ---
 

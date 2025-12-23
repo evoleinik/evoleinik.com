@@ -194,3 +194,7 @@ The latch pattern makes this an explicit user choice. Default is raw transcripti
 - **Low temperature for tools** - you want consistency, not creativity
 - **Graceful fallback is mandatory** - LLM features should enhance, not gate, core functionality
 - **Choose your latency budget** - 200-400ms is fine for async use cases, not for real-time
+
+---
+
+**Related:** [Building an AI-Powered Changelog GitHub Action](/posts/ai-changelog-github-action/) - Similar prompt engineering patterns for developer tooling.

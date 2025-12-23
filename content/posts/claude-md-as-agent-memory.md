@@ -136,3 +136,7 @@ It's also not a crutch for bad tooling. If your agent keeps forgetting how to ru
 - Compound effect: after months, the agent "knows" your codebase's quirks
 
 The effort is minimal - maybe 2 minutes per session when something noteworthy happens. The payoff is an agent that stops making the same mistakes and starts feeling like it actually learns.
+
+---
+
+**Related:** [Debugging Random Reboots with Claude Code](/posts/debugging-random-reboots-with-claude-code/) - See Claude Code's systematic debugging approach in action.
