@@ -6,12 +6,22 @@ theme = 'PaperMod'
 [params]
 author = 'Eugene Oleinik'
 description = 'Building things that work.'
+keywords = ['AI', 'software engineering', 'startups', 'Claude Code', 'developer tools']
+images = ['/og-image.png']
+twitter = 'EugeneOleinik'
 showReadingTime = true
 showShareButtons = false
 showPostNavLinks = true
 showBreadCrumbs = false
 showCodeCopyButtons = true
 defaultTheme = 'auto'
+
+  [params.cover]
+  responsiveImages = true
+  linkFullImages = false
+
+  [params.label]
+  text = 'Eugene Oleinik'
 
   [params.homeInfoParams]
   Title = 'Eugene Oleinik'
