@@ -1,6 +1,6 @@
 ---
 title: "The Best Agent Architecture Is Already in Your Terminal"
-date: 2025-01-12
+date: 2026-01-12
 slug: filesystem-agent-context
 tags:
   - ai
