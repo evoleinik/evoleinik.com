@@ -60,7 +60,8 @@ Based in Singapore. Building what's next.
   url = '/index.xml'
 
 [outputs]
-home = ['HTML', 'RSS', 'LLMS', 'LLMSFULL']
+home = ['HTML', 'RSS', 'LLMS', 'LLMSFULL', 'MARKDOWN']
+page = ['HTML', 'MARKDOWN']
 
 [outputFormats]
   [outputFormats.LLMS]
@@ -73,6 +74,13 @@ home = ['HTML', 'RSS', 'LLMS', 'LLMSFULL']
   baseName = 'llms-full'
   isPlainText = true
   mediaType = 'text/plain'
+  notAlternative = true
+
+  [outputFormats.MARKDOWN]
+  baseName = 'index'
+  mediaType = 'text/markdown'
+  isPlainText = true
+  permalinkable = true
   notAlternative = true
 
 [markup]
