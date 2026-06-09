@@ -1,57 +1,56 @@
 ---
-title: "The Path Has To Exist: Fixing Claude's CI Panel for Remote Dev Sessions"
-date: 2026-06-01
-tags: [claude-code, macos, fuse, sshfs, remote-development, devtools]
-summary: "Claude's desktop CI/PR panel kept showing 'CI checks unavailable' for my remote dev sessions. The reason was dumber than it looked: it shells out to local gh in the session's working directory — a Linux path that doesn't exist on my Mac. Here's how I fixed the premise instead of the app, by mirroring the remote repo at its real path with a read-only FUSE-T sshfs mount, plus the three FUSE gotchas that cost me an afternoon."
+title: "The Path Has To Exist: Fixing Claude Code's CI Panel for Remote Dev (Without Melting a CPU)"
+date: 2026-06-09
+tags: [claude-code, macos, fuse-t, sshfs, git-worktree, remote-development, devtools, open-source]
+summary: "Claude Code's desktop CI panel shells out to local gh in the session's working directory — a remote path that doesn't exist on my Mac. I fixed the premise by making the path exist: first with a FUSE-T mount that pinned a CPU at 100%, then with a git-worktree mirror that doesn't. Plus the open-source tool that does it for you."
 ---
 
-My code lives on a Linux box. I drive it from a Mac with Claude Code running in the Claude desktop app, pointed at the box over SSH — so the session's working directory is a remote path. Everything works — except the desktop app's CI/PR panel, which shows "CI checks unavailable" for every pull request.
+My code lives on a Linux box. I drive it from a Mac with Claude Code in the desktop app, pointed at the box over SSH — so each session's working directory is a remote path. Everything works except the desktop app's CI/PR panel, which shows "CI checks unavailable" for every pull request.
 
-The reason is dumber than it looks. The panel doesn't subscribe to GitHub webhooks. It shells out to your local `gh` CLI, in the **session's working directory**, on the Mac. For a remote session that directory is a Linux path — `/home/eo/src/airshelf/...` — which doesn't exist on the Mac. `gh` spawns, hits `ENOENT`, and the panel goes dark.
+The reason is dumber than it looks. The panel doesn't subscribe to GitHub webhooks. It shells out to your local `gh`, in the **session's working directory**, on the Mac. For a remote session that directory is a Linux path — `/home/eo/src/app/...` — that doesn't exist on the Mac. `gh` runs somewhere with no repo, and the panel goes dark. (You can confirm this by reading the app bundle: the panel computes `available = repoSlugs > 0 && (githubAuth || ghCliAvailable)`, and `repoSlugs` comes from the git remote of the **local** folder at the session's path.)
 
-So I stopped trying to "fix the app" and fixed the premise instead: **make that exact path exist on the Mac, with a real `.git`.** Then the local `gh` resolves the repo and the panel lights up — no patching, survives every app update.
+So I stopped trying to fix the app and fixed the premise: **make that exact path exist on the Mac, with a real `.git`.** Then local `gh` resolves the repo and the panel lights up — no patching, survives every update.
 
-The clean way to do that in 2026 is FUSE-T + sshfs.
+I shipped that with a FUSE-T sshfs mount. I even wrote it up here. It was wrong.
 
-## What I ruled out first
+## The mount that pinned a CPU at 100%
 
-**Webhooks into the panel.** They don't exist. The only event-driven GitHub integration Claude ships is Routines — cloud agents that spin up a *fresh* session on a PR or Release event. Useful, but it's not the local panel, and it can't wake the session you're sitting in.
+FUSE-T is the clean way to get a remote path onto a modern Mac — kext-less, it runs a local NFS server instead of a kernel extension. I mounted `box:/home/eo/src` read-only at the same path, a LaunchAgent kept it alive, the panel lit up. Done.
 
-**NFS.** My first instinct. It died twice: macOS `autofs` owns `/home`, so `mkdir /home/eo` returns "Operation not supported"; and an NFS export can't filter per-file, so exporting `/home/eo` would hand the network my SSH keys and `.env` files. Wrong tool.
+Then my fans spun up and stayed up. `go-nfsv4` — FUSE-T's userspace NFS server — sat at **100% CPU**, indefinitely.
 
-## The build
+The cause is a property of the whole category, not a bug I could patch. The desktop app watches the repo for changes. **NFS has no fsevents**, so a file-watcher over a network mount can't get push notifications — it falls back to *recursively polling*. And I'd mounted the entire `src` tree: every worktree, every `node_modules`, hundreds of thousands of files, walked over the network, forever. A network filesystem under a file-watcher is a polling bomb.
 
-The whole fix is one mount and a keep-alive. Three things make it safe and boring:
+But the failure handed me the insight: **the panel doesn't need my files. It needs my `.git`.** `repoSlugs` comes from the remote URL; the checks come from `gh` hitting GitHub's API. The working tree — the expensive part to mirror — is irrelevant to the panel.
 
-**Scope the mount to the subtree you need.** Not all of `/home/eo` — just `box:/home/eo/src`. SSH keys and shell dotfiles live one level up and never get mounted.
+## The fix: mirror the git, not the filesystem
 
-**Read-only.** A read-write mount means Finder and Spotlight will scatter `.DS_Store` files into your live working tree on the server. `-o ro` and the problem disappears.
+So I threw out the mount and built a mirror that produces *real local files the OS can watch natively*:
 
-**FUSE-T, not macFUSE.** FUSE-T is kext-less — it runs a local NFS v4 server instead of a kernel extension. On modern, locked-down macOS that means no Recovery-mode kext approval and no security downgrade. (`brew install --cask fuse-t fuse-t-sshfs`.)
+- Keep a blobless clone of the repo on the Mac at the identical path.
+- Every 60 seconds, ask the box for its `git worktree list` and GitHub for my open PRs.
+- For each remote worktree whose branch has an open PR, recreate it locally as a `git worktree` on the matching branch — a `git fetch`, kilobytes, no working-tree copy of `node_modules`.
+- Prune the ones whose PRs closed.
 
-Making `/home/eo/src` exist on a read-only macOS root is the fiddly part. On my machine `/home` was already a symlink to the writable data volume, so I only had to evict `autofs`:
+Real local files → fsevents works → the watcher is cheap → `go-nfsv4` is gone and idle CPU is back to zero. The footprint is git metadata plus tracked source, scoped to the branches that actually have CI to show. A new PR appears within a minute; a closed one disappears.
 
-```bash
-sudo sed -i '' 's|^/home|#/home|' /etc/auto_master   # free /home from autofs
-sudo automount -vc                                    # no reboot needed
-sudo mkdir -p /home/eo/src && sudo chown "$(id -un)":staff /home/eo /home/eo/src
-sshfs box:/home/eo/src /home/eo/src -o ro -o reconnect -o volname=airshelf-src
+A few macOS traps were worth the scar tissue:
+
+- **You can't operate — or even read — the mount from a headless SSH session.** A FUSE-T mount (and, it turns out, launchd-owned git worktrees) live in the GUI `gui/$UID` domain; `git` run via `ssh mac '...'` returns "Operation not permitted." Do the work in launchd, verify in the GUI.
+- **`/home` doesn't exist on macOS by default** (autofs owns it). If your remote path starts with `/home`, free it once with a one-line `auto_master` edit. Paths under `/Users` need nothing.
+- **The `/System/Volumes/Data` firmlink** means `git worktree list` reports canonical paths; compare with that prefix stripped or your prune step churns every cycle.
+
+## I packaged it
+
+It's a single bash script — point it at your SSH host and the repo path; it clones, reconciles every 60s via a LaunchAgent, and stays out of the way. Open source, MIT:
+
+**[github.com/evoleinik/claude-ci-mirror](https://github.com/evoleinik/claude-ci-mirror)**
+
+```sh
+printf 'REMOTE=box\nREMOTE_REPO=/home/you/src/app\n' > ~/.config/claude-ci-mirror/config
+claude-ci-mirror doctor && claude-ci-mirror install
 ```
-
-(If `/home` isn't already a symlink, `/etc/synthetic.conf` creates the root-level entry — that one needs a reboot.)
-
-A LaunchAgent re-runs an idempotent mount script every 60 seconds so reboots and network blips self-heal.
-
-## The FUSE gotchas that actually cost me time
-
-The mount was the easy 20%. The other 80% was three non-obvious traps — the kind of thing worth writing down so nobody (including me) burns an afternoon on them again.
-
-**1. The mount must be created from a GUI login session — not headless SSH.** I scripted the whole thing over `ssh mac '...'` and every access returned "Operation not permitted," while the *identical* command run in the Mac's own Terminal worked perfectly. A FUSE-T mount born in a non-GUI SSH session has no TCC/GUI context and serves nothing. The LaunchAgent solves this for free: it runs in the user's `gui/$UID` domain, which is the right context.
-
-**2. Don't trust the `mount` table for "is it mounted?"** FUSE-T lists a single mount as *two* identical lines, and leaves stale lines behind after an unmount. My first idempotency check grepped `mount` — so it both double-mounted and, later, *skipped* a real mount because a stale line fooled it. The robust check is a **liveness probe**: `test -e /home/eo/src/<repo>/.git`. If the path you actually need doesn't resolve, remount. The mount table is theater.
-
-**3. Kill the `sshfs` process *before* you unmount.** Force-unmounting while the process is still alive produces a half-dead mount: the entry lingers, the proc lingers, and every access throws "Operation not permitted" — and a fresh mount on the same point fails with `fuse: mount failed with error: -1`. The clean recovery is `pkill -9 -f sshfs` first; the stale entry then clears itself, and the point is mountable again. I learned this by doing the opposite, repeatedly.
 
 ## Takeaway
 
-When a tool integration breaks across a machine boundary, check whether it's secretly assuming a local path. Claude's CI panel was — it just runs `gh` where it thinks the repo is. You don't need the vendor to ship a feature; you need the path to exist. A scoped, read-only FUSE-T mount makes the remote repo present at its real path on the Mac, and the "broken" feature was never broken — it was looking in the right place on the wrong filesystem.
+When a tool integration breaks across a machine boundary, it's usually assuming a local path. Make the path exist — but give it *real local files*, not a network mount. The mount is the obvious move, and it works for about a minute, until a file-watcher starts polling it and eats a core. The panel was never broken; it was looking in the right place on the wrong filesystem. The real trick wasn't mounting the filesystem — it was noticing the panel only ever wanted the `.git`.
