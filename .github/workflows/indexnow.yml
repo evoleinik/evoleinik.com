@@ -1,0 +1,47 @@
+name: IndexNow ping
+
+# Vercel reports each deploy to GitHub. Once production is live, ping the posts
+# changed since the last successful production deploy, so Bing sees them in minutes.
+on:
+  deployment_status:
+
+permissions:
+  contents: read
+  deployments: read
+
+jobs:
+  ping:
+    if: >-
+      github.event.deployment.environment == 'Production' &&
+      github.event.deployment_status.state == 'success'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.deployment.sha }}
+          fetch-depth: 0
+
+      - name: Find the previous live commit
+        id: base
+        env:
+          GH_TOKEN: ${{ github.token }}
+          HEAD_SHA: ${{ github.event.deployment.sha }}
+          REPO: ${{ github.repository }}
+        run: |
+          base=""
+          for row in $(gh api "repos/$REPO/deployments?environment=Production&per_page=20" \
+                         --jq '.[] | "\(.id):\(.sha)"'); do
+            id=${row%%:*}; sha=${row#*:}
+            [ "$sha" = "$HEAD_SHA" ] && continue
+            state=$(gh api "repos/$REPO/deployments/$id/statuses?per_page=1" --jq '.[0].state // ""')
+            if [ "$state" = "success" ] && git cat-file -e "$sha^{commit}" 2>/dev/null; then
+              base=$sha; break
+            fi
+          done
+          echo "base=${base:-$HEAD_SHA~1}" >> "$GITHUB_OUTPUT"
+
+      - name: Ping IndexNow
+        env:
+          BASE: ${{ steps.base.outputs.base }}
+          HEAD_SHA: ${{ github.event.deployment.sha }}
+        run: scripts/indexnow.sh --changed "$BASE" "$HEAD_SHA"
