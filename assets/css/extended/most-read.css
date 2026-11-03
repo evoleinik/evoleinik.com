@@ -1,0 +1,5 @@
+.most-read { margin: 2rem 0 1.5rem; padding-top: 1.25rem; border-top: 1px solid var(--border); }
+.most-read h2 { font-size: 1.1rem; margin: 0 0 0.6rem; }
+.most-read ul { margin: 0; padding-left: 1.1rem; }
+.most-read li { margin: 0.35rem 0; }
+.most-read a { box-shadow: 0 1px 0 var(--primary); }

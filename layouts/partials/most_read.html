@@ -1,0 +1,19 @@
+{{- /* "Most read" under each post: the order from data/most_read.yaml (scripts/update-most-read.py),
+       never the counts. A slug that no longer resolves fails the build rather than vanishing. */ -}}
+{{- $current := . }}
+{{- $items := slice }}
+{{- range site.Data.most_read.posts }}
+  {{- $page := site.GetPage (printf "/posts/%s" .slug) }}
+  {{- if not $page }}{{ errorf "data/most_read.yaml: no post %q; rerun scripts/update-most-read.py --write" .slug }}{{ end }}
+  {{- if ne $page.Permalink $current.Permalink }}{{ $items = $items | append $page }}{{ end }}
+{{- end }}
+{{- with first 4 $items }}
+<aside class="most-read" aria-labelledby="most-read-title">
+  <h2 id="most-read-title">Most read</h2>
+  <ul>
+    {{- range . }}
+    <li><a href="{{ .RelPermalink }}">{{ .Title }}</a></li>
+    {{- end }}
+  </ul>
+</aside>
+{{- end }}
