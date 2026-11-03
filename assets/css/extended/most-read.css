@@ -3,3 +3,4 @@
 .most-read ul { margin: 0; padding-left: 1.1rem; }
 .most-read li { margin: 0.35rem 0; }
 .most-read a { box-shadow: 0 1px 0 var(--primary); }
+.most-read time { color: var(--secondary); font-size: 0.85em; white-space: nowrap; margin-left: 0.25rem; }

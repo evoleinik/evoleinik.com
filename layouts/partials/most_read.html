@@ -12,7 +12,7 @@
   <h2 id="most-read-title">Most read</h2>
   <ul>
     {{- range . }}
-    <li><a href="{{ .RelPermalink }}">{{ .Title }}</a></li>
+    <li><a href="{{ .RelPermalink }}">{{ .Title }}</a> <time datetime="{{ .Date.Format "2006-01-02" }}">{{ .Date.Format "Jan 2006" }}</time></li>
     {{- end }}
   </ul>
 </aside>
