@@ -1,24 +1,24 @@
 ---
-title: "How to Run an LLM Review Panel: Let the Critics Rank, Not Edit"
+title: "How to Run an LLM Review Panel: Use It to Check, Not to Write"
 date: 2026-11-03
 draft: false
 tags: [ai, llm, llm-as-judge, evaluation, writing, methodology]
-summary: "An LLM review panel, or council, is several models with personas scoring a draft cold. The usual loop is to fix what the critics say and run them again. That loop barely moves the score. Across 270 logged rounds, edits of taste moved it 0.04 points out of 10, error fixes 0.62, and only new proof changed verdicts. Here is a method that uses the panel for what it does well: ranking drafts and catching errors."
+summary: "An LLM review panel, or council, is several models with personas scoring a draft cold. The usual loop is to fix what the critics say and run them again. That loop barely moves the score. Across 270 logged rounds, edits of taste moved it 0.04 points out of 10, error fixes 0.62, and only new proof changed verdicts. Here is a method that uses the panel for what it does well: catching errors and naming the evidence a reader needs."
 ---
 
 An LLM review panel is a simple idea. You give a draft to several language models. Each one plays a reader: a skeptical investor, a buyer, a competitor, a domain expert. Each reads the draft cold and returns scores, a verdict and comments. I call it a council. People use the same setup for pitches, specs, essays, cover letters and product pages.
 
 The natural way to use a council is to read the comments, fix what they ask for, and run it again. That loop feels like progress. It mostly isn't. The score barely moves, the verdict almost never changes, and each round brings a new list of complaints.
 
-This post describes a method that works better, and the evidence behind it. The short version: **use the council to rank drafts and to catch errors. Do not use it to decide what to write.**
+This post describes a method that works better, and the evidence behind it. The short version: **use the council to catch errors and to name the evidence a reader would need. Do not use it to decide what to write.**
 
 ## What a council is good for
 
 A council does three things well.
 
-1. **Ranking.** Given several drafts, it reliably picks the stronger ones. The [JETTS benchmark (Zhou et al., Salesforce, 2025)](https://arxiv.org/abs/2504.15253) tested LLM judges as helpers for a writer model. Judges were "competitive with outcome reward models in reranking".
-2. **Catching checkable errors.** A wrong number, a claim that contradicts another claim, an unexplained term, a typography mistake. These are wrong for every reader, so fixing them helps with every reader.
-3. **Naming the missing proof.** Critics are good at saying what evidence would change their mind: a reference customer, a measured result, a working demo.
+1. **Catching checkable errors.** A wrong number, a claim that contradicts another claim, an unexplained term, a typography mistake. These are wrong for every reader, so fixing them helps with every reader.
+2. **Naming the missing proof.** Critics are good at saying what evidence would change their mind: a reference customer, a measured result, a working demo.
+3. **Comparing two versions.** Given two drafts, it picks the stronger one fairly reliably. The [JETTS benchmark (Zhou et al., Salesforce, 2025)](https://arxiv.org/abs/2504.15253) tested LLM judges as helpers for a writer model. Judges were "competitive with outcome reward models in reranking".
 
 It does one thing badly. Its advice on taste, meaning framing, emphasis, structure and wording, does not reliably make the draft better. JETTS found the same: the judges' "natural language critiques are currently ineffective in guiding the generator towards better responses".
 
@@ -55,17 +55,14 @@ Sort everything the critics say into two tables, and ignore whatever fits neithe
 
 Everything else is taste: "lead with X", "add a section on Y", "cut Z", "sharpen the framing". Taste goes in neither table, and you do not act on it.
 
-## Improve the draft by ranking, not by editing to the advice
+## Improve the draft with evidence and real readers
 
 1. **Fix the defects.**
-2. **Write 3 to 10 variants yourself.** Make each differ in a real choice: the spine, the opening, the close, the length, the emphasis. A variant that only applies the last round's advice is not a new variant.
-3. **Keep an unchanged control.** Run the current best draft again, untouched, in every round.
-4. **Run the variants and the control together**, on the same frozen panel, cold.
-5. **Keep a variant only if it beats the control by more than the control's own spread.** Then confirm the winner on fresh runs. A winner picked from many candidates is partly luck, so a single panel overrates it.
-6. **Carry the best-scoring draft forward, never simply the latest.**
-7. **Stop when the top stops moving across two rounds.** Whatever the critics still want is now in the Proof table. Go and get it.
-
-LLMs make variants cheap, so run many cheap panel calls rather than a few expensive ones.
+2. **Get the proof the critics named, and add it.** A measured result or a working demo moves readers in a way no rewording can.
+3. **If you are torn between two approaches, write both yourself.** Compare them with the unchanged draft as a control, on the same frozen panel, cold. A difference smaller than the control's own spread is noise.
+4. **If many people will read it, test the two versions on them.** A landing page, an email campaign or a public demo has real readers. Their replies, clicks and meetings are a better score than any panel. Use the panel only to check for errors before you send.
+5. **Keep the version that wins, never simply the latest.**
+6. **Stop editing when the score stops moving.** Whatever the critics still want is now in the Proof table. Go and get it.
 
 ## Measure the noise before you trust a difference
 
@@ -89,9 +86,8 @@ Some examples behind the rows:
 - **Taste.** Two versions of a sales deck each applied all five of the panel's round-one fixes. They scored 6.0 and 6.1. The unchanged deck scored 6.2. All 15 runs gave the same verdict.
 - **Defects.** A report's design went from 6.5 to 9.2 over four rounds of typography fixes. A demo video moved from 0.42 to 0.58 on its panel's 0-to-1 scale after wording changes that explained terms viewers could not follow. Its unchanged control moved from 0.41 to 0.42.
 - **Proof.** A startup application gained 0.60 points and a second YES in the round after a paying pilot was signed. The demo video got its first "yes, next step" votes only when product changes were scripted as if they had shipped.
-- **Ranking.** A search over 500 deck variants, each written from a different approach, found a winner 0.40 points above the unchanged deck on 60 fresh judge calls. Its approval rate was 30%, against 13% for the control.
 
-Two loop results stand out. One automated loop rewrote a spec for 94 rounds. It climbed from 4.0 to 7.7 and ended at 6.5. Another ran 23 rounds, peaked at 6.6 in round four, and ended at 3.6. Re-scoring the same version moved those judges by up to 0.94 points. A loop that keeps its latest draft drifts with the noise. Only a loop that keeps its best draft can climb.
+Automated rewrite loops are the extreme case of following the advice. One rewrote a spec for 94 rounds. It climbed from 4.0 to 7.7 and ended at 6.5. Another ran 23 rounds, peaked at 6.6 in round four, and ended at 3.6. Re-scoring the same version moved those judges by up to 0.94 points. A model rewriting to please a model drifts with the noise.
 
 ## Why advice on taste fails
 
@@ -101,13 +97,13 @@ Two loop results stand out. One automated loop rewrote a spec for 94 rounds. It 
 - **Writing to a judge's taste drifts from the real reader.** [Pan, He, Bowman and Feng (2024)](https://arxiv.org/abs/2407.04549) had one model edit essays to please another. "The evaluator's ratings improve while the generation quality remains stagnant or even decreases." [Pan et al. (ICML 2024)](https://arxiv.org/abs/2402.06627) showed that optimizing in a feedback loop creates side effects the objective does not see.
 - **Advice changes its mind.** A cold critic does not remember what it asked for last time. In my log, critics twice asked for the opposite of what the previous round had asked for.
 - **Fixes have costs that other critics score.** Answering every critic adds length, hedges and caveats. Critics also disagree with each other. A draft that satisfies all of them is a compromise each likes less.
-- **Some scores are capped by facts.** When the remaining objections ask for proof, no wording can meet them. The 500-variant deck search topped out around 7.6.
+- **Some scores are capped by facts.** When the remaining objections ask for proof, no wording can meet them.
 
 Human feedback behaves the same way. In the NeurIPS 2014 experiment, [half the variation in reviewer scores was subjective](https://arxiv.org/abs/2109.09774). A [meta-analysis of 607 feedback interventions (Kluger and DeNisi, 1996)](https://psycnet.apa.org/doi/10.1037/0033-2909.119.2.254) found feedback helped on average, but more than a third of interventions made performance worse. Jakob Nielsen's [first rule of usability](https://www.nngroup.com/articles/first-rule-of-usability-dont-listen-to-users/) is "watch what people actually do", not what they say.
 
 ## Where written feedback does work
 
-Written feedback is not useless. It works when a score decides what to keep. [GEPA (2025)](https://arxiv.org/abs/2507.19457) uses written reflection on failures to propose new prompts, and beats reinforcement learning with far fewer runs. But GEPA keeps a pool of candidates and selects by measured score. The reflection proposes. The score decides. If you want to use a critic's suggestion, make it one variant in the pool and let it compete against the control like any other.
+Written feedback is not useless. It works when a score decides what to keep. [GEPA (2025)](https://arxiv.org/abs/2507.19457) uses written reflection on failures to propose new prompts, and beats reinforcement learning with far fewer runs. But GEPA keeps a pool of candidates and selects by measured score. The reflection proposes. The score decides. If a critic's suggestion seems worth trying, treat it as one more version to test, not as an instruction.
 
 ## Limits
 
