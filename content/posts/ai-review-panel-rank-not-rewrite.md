@@ -3,7 +3,7 @@ title: "How to Run an LLM Review Panel: Use It to Check, Not to Write"
 date: 2026-11-03
 draft: false
 tags: [ai, llm, llm-as-judge, evaluation, writing, methodology]
-summary: "An LLM review panel, or council, is several models with personas scoring a draft cold. The usual loop is to fix what the critics say and run them again. That loop barely moves the score. Across 270 logged rounds, edits of taste moved it 0.04 points out of 10, error fixes 0.62, and only new proof changed verdicts. Here is a method that uses the panel for what it does well: catching errors and naming the evidence a reader needs."
+summary: "An LLM review panel, or council, is several models with personas scoring a draft cold. The usual loop is to fix what the critics say and run them again. That loop barely moves the score. Across 270 logged rounds, edits of taste moved it 0.04 points out of 10, error fixes 0.62, and new proof was what reliably moved verdicts. Here is a method that uses the panel for what it does well: catching errors and naming the evidence a reader needs."
 ---
 
 An LLM review panel is a simple idea. You give a draft to several language models. Each one plays a reader: a skeptical investor, a buyer, a competitor, a domain expert. Each reads the draft cold and returns scores, a verdict and comments. I call it a council. People use the same setup for pitches, specs, essays, cover letters and product pages.
