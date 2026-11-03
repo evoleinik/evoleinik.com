@@ -25,11 +25,11 @@ defaultTheme = 'auto'
 
   [params.homeInfoParams]
   Title = 'Eugene Oleinik'
-  Content = '''Founder in Residence at Antler. Former CTO of 12Go, APAC's leading ground transportation OTA, where I spent 10 years scaling the platform to 30,000 bookings daily with a remote team of 50 engineers.
+  Content = '''Co-founder and CTO of [AirShelf](https://airshelf.com), an Antler-backed startup in Singapore. AirShelf turns sellers' product knowledge and sales rules into sourced answers and offers that buyers and their AI agents can act on.
 
-Based in Singapore. Building what's next.
+Before that I was co-founder and CTO of 12Go, APAC's leading ground transportation OTA. I joined in 2014, and over a decade we scaled it to 50,000 bookings a day with a 45-person remote team.
 
-**Projects:** [fnkey](https://github.com/evoleinik/fnkey) · [feeder](https://github.com/evoleinik/feeder) · [ai-9p](https://github.com/evoleinik/ai-9p)'''
+**Projects:** [notanemulator.com](https://notanemulator.com/) (DOS programs translated to C, not emulated) · [fnkey](https://github.com/evoleinik/fnkey) · [feeder](https://github.com/evoleinik/feeder) · [ai-9p](https://github.com/evoleinik/ai-9p)'''
 
   [[params.socialIcons]]
   name = 'github'
