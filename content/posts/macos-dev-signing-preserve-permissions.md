@@ -1,8 +1,8 @@
 ---
-title: "Preserve macOS App Permissions Across Rebuilds with Self-Signed Certificates"
+title: "macOS Self-Signed Code Signing Certificate: Keep App Permissions"
 date: 2025-12-21
 tags: [macos, code-signing, development, security]
-summary: "Stop re-granting Accessibility permissions after every rebuild by creating a stable self-signed certificate."
+summary: "macOS resets Accessibility and Input Monitoring permissions each time you rebuild an ad-hoc signed app. A stable self-signed certificate fixes it."
 ---
 
 macOS ties permissions (Accessibility, Input Monitoring, etc.) to an app's code signature. When you sign with `codesign --sign -` (ad-hoc signing), macOS generates a different signature each rebuild. Your carefully granted permissions vanish. You re-add the app to System Settings. Again. And again.

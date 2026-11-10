@@ -1,8 +1,8 @@
 ---
-title: "iTerm2 + tmux -CC: The Remote Development Setup Nobody Talks About"
+title: "iTerm2 tmux Integration: How tmux Control Mode (-CC) Works"
 date: 2025-12-22
 tags: [terminal, tmux, ssh, remote-development, macos]
-summary: "How iTerm2's tmux control mode turns remote SSH sessions into native Mac tabs with persistent sessions, proper scrollback, and zero friction."
+summary: "tmux control mode (tmux -CC) makes iTerm2 show a remote tmux session as native Mac tabs. Sessions survive a dropped SSH link and keep real scrollback."
 ---
 
 Every few months, someone announces a new terminal emulator that will revolutionize remote development. AI-powered this, cloud-native that. Meanwhile, iTerm2 has had a feature since 2012 that solves remote development better than most alternatives - and almost nobody uses it.
