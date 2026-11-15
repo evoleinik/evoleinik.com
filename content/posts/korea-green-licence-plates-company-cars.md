@@ -1,9 +1,9 @@
 ---
-title: "How South Korea's Green Licence Plates Shamed Luxury Company Cars Before Becoming a Status Symbol"
+title: "Korea's Green License Plates: From Shame to Status Symbol"
 date: 2026-11-03
 draft: false
 tags: [south-korea, tax, cars, policy, incentives, ai]
-summary: "South Korea put light green licence plates on expensive company cars in 2024 to stop owners from driving supercars on business tax deductions. The plates cut registrations by a third in the first year and turned into a badge of wealth in the second. The tax office now audits from the list they created."
+summary: "In 2024 South Korea put green license plates on company cars worth 80 million won or more. Luxury sales fell, then the plate became a status symbol."
 ---
 
 A short paragraph about South Korean licence plates keeps turning up online. It sits in the Wikipedia article on [vehicle registration plates of South Korea](https://en.wikipedia.org/wiki/Vehicle_registration_plates_of_South_Korea). It says Korea introduced a neon green plate for cars worth $58,000 or more in January 2024, to stop private use of company-owned luxury cars. Then comes the line everyone quotes: "4 months after the introduction of the new plates, sales of luxury vehicles had already fallen by 27% (sales of Bentley vehicles dropped by 77%)."
