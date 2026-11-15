@@ -7,6 +7,8 @@ summary: "tmux control mode (tmux -CC) makes iTerm2 show a remote tmux session a
 
 Every few months, someone announces a new terminal emulator that will revolutionize remote development. AI-powered this, cloud-native that. Meanwhile, iTerm2 has had a feature since 2012 that solves remote development better than most alternatives - and almost nobody uses it.
 
+Deciding between tmux and iTerm2, or running Claude Code on a server? See [tmux vs iTerm2 for Claude Code](/posts/tmux-vs-iterm2-claude-code/).
+
 ## The Problem with SSH
 
 If you do remote development, you know the pain:
