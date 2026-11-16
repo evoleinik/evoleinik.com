@@ -6,6 +6,9 @@ theme = 'PaperMod'
 [params]
 author = 'Eugene Oleinik'
 description = 'Building things that work.'
+# Closing line of every post, in HTML and in the Markdown copy agents read. {url} becomes a
+# UTM-tagged airshelf.com link (layouts/partials/author_line_text.html).
+authorLine = '''I'm Eugene Oleinik, co-founder and CTO of [AirShelf]({url}). AirShelf turns sellers' product knowledge and sales rules into sourced answers and offers that buyers and their AI agents can act on.'''
 keywords = ['AI', 'software engineering', 'startups', 'Claude Code', 'developer tools']
 images = ['/og-image.png']
 twitter = 'EugeneOleinik'

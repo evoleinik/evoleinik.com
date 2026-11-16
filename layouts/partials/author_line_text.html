@@ -1,0 +1,4 @@
+{{- /* The author line as Markdown, with a UTM-tagged airshelf.com link. Called by author_line.html
+       (HTML) and single.markdown.md (the copy agents read), so both say the same thing. */ -}}
+{{- $url := printf "https://airshelf.com/?utm_source=evoleinik.com&utm_medium=blog&utm_campaign=author_line&utm_content=%s" .File.ContentBaseName }}
+{{- return replace site.Params.authorLine "{url}" $url }}

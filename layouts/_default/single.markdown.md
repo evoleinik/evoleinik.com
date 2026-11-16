@@ -5,3 +5,9 @@ url: {{ .Permalink }}
 ---
 
 {{ .RawContent }}
+{{- if eq .Section "posts" }}
+
+---
+
+{{ partial "author_line_text.html" . }}
+{{- end }}

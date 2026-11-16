@@ -1,0 +1,7 @@
+{{- /* One closing line on every post: who wrote it and what AirShelf does (decided 2026-11-16).
+       A click is counted as the Vercel custom event "author_line_click" with the post slug, and
+       again on airshelf.com through the UTM tags. */ -}}
+{{- if eq .Section "posts" }}
+<p class="author-line" data-post="{{ .File.ContentBaseName }}">{{ partial "author_line_text.html" . | markdownify }}</p>
+<script>document.querySelectorAll('.author-line a').forEach(function (a) { a.addEventListener('click', function () { window.va('event', { name: 'author_line_click', data: { post: a.closest('.author-line').dataset.post } }); }); });</script>
+{{- end }}
