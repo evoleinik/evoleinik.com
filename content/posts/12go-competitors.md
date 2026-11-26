@@ -96,7 +96,7 @@ There is also a clear group of routes where no aggregator was named in most answ
 
 ## Where 12Go is weaker
 
-The test results also point to the places where 12Go has less hold on the market. It is weaker on routes where foreign tourist demand is small, and on routes where a single national operator already dominates the conversation. In addition, smaller operators had no same-class, same-date price of their own online, so their direct prices were not measured, so whether 12Go sells above their direct prices remains unknown.
+The test results also point to the places where 12Go has less hold on the market. It is weaker on routes where foreign tourist demand is small, and on routes where a single national operator already dominates the conversation. In addition, smaller operators had no same-class, same-date price of their own online. Their direct prices were not measured. So whether 12Go sells above them is unknown.
 
 Messaging apps are another open question. Operators in Asia already sell tickets directly over chat apps. Lomprayah, for instance, sells direct to passengers over LINE, WhatsApp, and WeChat. In August 2026, Meta launched Meta Business Agent in Indonesia, offering a free AI chat assistant for businesses inside WhatsApp. Whether these automated chat assistants will pull bookings away from aggregators and back to direct operator channels is still unmeasured.
 
